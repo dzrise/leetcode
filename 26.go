@@ -35,32 +35,29 @@ package main
 
 import "fmt"
 
-func inArray(arr []int, val int) bool {
-	for _, v := range arr {
-		if v == val {
-			return true
-		}
-	}
-
-	return false
-}
-
 func removeDuplicates(nums []int) int {
-	result := make([]int, 0, len(nums))
-	for _, v := range nums {
-		if !inArray(result, v) {
-			result = append(result, v)
-		}
-	}
+	keys := make(map[int]bool)
+	n := len(nums)
+	cnt := 0
 
-	nums = result
-	return len(result)
+	for tick := 0; tick < n; tick++ {
+		if _, ok := keys[nums[cnt]]; !ok {
+			keys[nums[cnt]] = true
+			cnt++
+		} else {
+			if cnt < len(nums)-1 {
+				nums = append(nums[:cnt], nums[cnt+1:]...)
+			} else {
+				nums = nums[:cnt]
+			}
+		}
+
+	}
+	return cnt
 }
 
 func main() {
-	nums := []int{1, 1, 2}
-	fmt.Println(removeDuplicates(nums))
 
-	nums = []int{0, 0, 1, 1, 1, 2, 2, 3, 3, 4}
+	nums := []int{0, 0, 1, 1, 1, 2, 2, 3, 3, 4}
 	fmt.Println(removeDuplicates(nums))
 }
