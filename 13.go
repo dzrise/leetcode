@@ -52,14 +52,13 @@ package main
 import "fmt"
 
 func romanToInt(s string) int {
-	data := map[string]int{"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
 	res := 0
 	for i := 0; i < len(s); i++ {
 		switch string(s[i]) {
 		case "M":
-			res += data[string(s[i])]
+			res += 1000
 		case "D":
-			res += data[string(s[i])]
+			res += 500
 		case "C":
 			if i != len(s)-1 && string(s[i+1]) == "M" {
 				res += 900
@@ -68,10 +67,10 @@ func romanToInt(s string) int {
 				res += 400
 				i++
 			} else {
-				res += data[string(s[i])]
+				res += 100
 			}
 		case "L":
-			res += data[string(s[i])]
+			res += 50
 		case "X":
 			if i != len(s)-1 && string(s[i+1]) == "C" {
 				res += 90
@@ -80,10 +79,10 @@ func romanToInt(s string) int {
 				res += 40
 				i++
 			} else {
-				res += data[string(s[i])]
+				res += 10
 			}
 		case "V":
-			res += data[string(s[i])]
+			res += 5
 		case "I":
 			if i != len(s)-1 && string(s[i+1]) == "X" {
 				res += 9
@@ -92,7 +91,7 @@ func romanToInt(s string) int {
 				res += 4
 				i++
 			} else {
-				res += data[string(s[i])]
+				res += 1
 			}
 
 		}
@@ -101,38 +100,38 @@ func romanToInt(s string) int {
 	return res
 }
 
-func romanToInt(s string) int {
-	ret := 0
-	mp := map[byte]int{
-		'I': 1,
-		'V': 5,
-		'X': 10,
-		'L': 50,
-		'C': 100,
-		'D': 500,
-		'M': 1000,
-	}
-	mp2 := map[string]int{
-		"IV": 4,
-		"IX": 9,
-		"XL": 40,
-		"XC": 90,
-		"CD": 400,
-		"CM": 900,
-	}
-	for i := 0; i < len(s); i++ {
-		if i+1 < len(s) {
-			v, find := mp2[s[i:i+2]]
-			if find {
-				ret += v
-				i++
-				continue
-			}
-		}
-		ret += mp[s[i]]
-	}
-	return ret
-}
+//func romanToInt(s string) int {
+//	ret := 0
+//	mp := map[byte]int{
+//		'I': 1,
+//		'V': 5,
+//		'X': 10,
+//		'L': 50,
+//		'C': 100,
+//		'D': 500,
+//		'M': 1000,
+//	}
+//	mp2 := map[string]int{
+//		"IV": 4,
+//		"IX": 9,
+//		"XL": 40,
+//		"XC": 90,
+//		"CD": 400,
+//		"CM": 900,
+//	}
+//	for i := 0; i < len(s); i++ {
+//		if i+1 < len(s) {
+//			v, find := mp2[s[i:i+2]]
+//			if find {
+//				ret += v
+//				i++
+//				continue
+//			}
+//		}
+//		ret += mp[s[i]]
+//	}
+//	return ret
+//}
 
 func main() {
 	fmt.Println(romanToInt("III"))
