@@ -37,8 +37,8 @@ package main
 import "fmt"
 
 func isMatch(s string, p string) bool {
-	rows := len(s) - 1
-	cols := len(p) - 1
+	rows := len(s)
+	cols := len(p)
 
 	if rows == 0 && cols == 0 {
 		return true
@@ -53,7 +53,7 @@ func isMatch(s string, p string) bool {
 	for i := 0; i < rows+1; i++ {
 		dp[i] = make([]int, cols+1)
 	}
-
+	dp[0][0] = 1
 	for i := 1; i < cols+1; i++ {
 		if p[i-1] == '*' {
 			dp[0][i] = dp[0][i-2]
@@ -61,7 +61,6 @@ func isMatch(s string, p string) bool {
 			dp[0][i] = 0
 		}
 	}
-	dp[0][0] = 1
 
 	for i := 1; i < rows+1; i++ {
 		for j := 1; j < cols+1; j++ {
@@ -83,7 +82,6 @@ func isMatch(s string, p string) bool {
 		}
 
 	}
-	fmt.Println(dp)
 	return dp[rows][cols] == 1
 
 }
@@ -97,7 +95,9 @@ func main() {
 	//fmt.Println(isMatch(s, p))
 	//s, p = "mississippi", "mis*is*ip*."
 	//fmt.Println(isMatch(s, p))
-	s, p := "aab", "*ca*b"
+	s, p := "aab", "c*a*b"
+	fmt.Println(isMatch(s, p))
+	s, p = "ab", ".*c"
 	fmt.Println(isMatch(s, p))
 
 }
