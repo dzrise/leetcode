@@ -27,8 +27,29 @@ package main
 import "fmt"
 
 type ListNode struct {
-	val  int
-	next *ListNode
+	Val  int
+	Next *ListNode
+}
+
+func GetLenghtList(head *ListNode) int {
+	tmp := head
+	count := 1
+
+	for tmp.Next != nil {
+		count++
+		tmp = tmp.Next
+	}
+
+	return count
+}
+
+func addToListNode(node *ListNode, val int) *ListNode {
+	if node == nil {
+		return &ListNode{Val: val}
+	}
+	node.Next = addToListNode(node.Next, val)
+
+	return node
 }
 
 func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
@@ -38,18 +59,45 @@ func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
 	if list2 == nil {
 		return list1
 	}
-	for list1.next == nil {
-		if list1.val < list2.val {
-			list1.next = mergeTwoLists(list1.next, list2)
-			return list1
+
+	n := GetLenghtList(list1) + GetLenghtList(list2)
+
+	var res *ListNode
+	for i := 0; i < n; i++ {
+		if list1 == nil && list2 == nil {
+			break
+		}
+		n1 := -101
+		if list1 != nil {
+			n1 = list1.Val
+		}
+		n2 := -101
+		if list2 != nil {
+			n2 = list2.Val
+		}
+
+		if n1 != -101 && n1 < n2 {
+			res = addToListNode(res, list1.Val)
+			list1 = list1.Next
+		} else if n2 != -101 && n1 > n2 {
+			res = addToListNode(res, list2.Val)
+			list2 = list2.Next
 		} else {
-			list2.next = mergeTwoLists(list1, list2.next)
-			return list2
+			if n1 != -101 {
+				res = addToListNode(res, list1.Val)
+				list1 = list1.Next
+			}
+			if n2 != -101 {
+				res = addToListNode(res, list2.Val)
+				list2 = list2.Next
+			}
 		}
 	}
-
+	return res
 }
 
 func main() {
-	fmt.Println(mergeTwoLists(nil, nil))
+	//fmt.Println(mergeTwoLists(nil, nil))
+	fmt.Println(mergeTwoLists(&ListNode{Val: 1}, &ListNode{Val: 2}))
+	//fmt.Println(mergeTwoLists(&ListNode{Val: 1, Next: &ListNode{Val: 2, Next: &ListNode{Val: 4}}}, &ListNode{Val: 1, Next: &ListNode{Val: 2, Next: &ListNode{Val: 4}}}))
 }
