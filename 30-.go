@@ -52,17 +52,45 @@ package main
 
 import "fmt"
 
+func combinationString(words []string) string {
+	res := make([][]string, 0, len(words))
+
+	for i := 0; i < len(words); i++ {
+		res = append(res, words[i])
+
+	}
+}
+
 func findSubstring(s string, words []string) []int {
-	if len(words) == 0 || len(s) == 0 {
+	if len(s) == 0 || len(words) == 0 {
 		return []int{}
 	}
 
-	comb := []string{}
+	wordLen := len(words[0])
+	totalWords := len(words)
+	totalLen := wordLen * totalWords
+	result := []int{}
 
-	for _, w := range words {
-		comb = append(comb, w)
+	wordCount := make(map[string]int)
+	for _, word := range words {
+		wordCount[word]++
 	}
 
+	for i := 0; i <= len(s)-totalLen; i++ {
+		tempWordCount := make(map[string]int)
+		for j := 0; j < totalWords; j++ {
+			subStr := s[i+j*wordLen : i+(j+1)*wordLen]
+			tempWordCount[subStr]++
+			if tempWordCount[subStr] > wordCount[subStr] {
+				break
+			}
+		}
+		if len(tempWordCount) == len(wordCount) {
+			result = append(result, i)
+		}
+	}
+
+	return result
 }
 
 func main() {
