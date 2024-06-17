@@ -29,20 +29,6 @@ import (
 	"fmt"
 )
 
-//func findKthLargest(nums []int, k int) int {
-//	if len(nums) == 0 {
-//		return 0
-//	}
-//
-//	if len(nums) == 1 {
-//		return nums[0]
-//	}
-//
-//	sort.Sort(sort.Reverse(sort.IntSlice(nums)))
-//
-//	return nums[k-1]
-//}
-
 func partition(arr []int, low, high int) ([]int, int) {
 	pivot := arr[high]
 	i := low
